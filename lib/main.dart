@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
+
 
 void main() => runApp(const MyApp());
 
@@ -28,6 +31,7 @@ class MyCustomForm extends StatefulWidget {
 
 class _MyCustomFormState extends State<MyCustomForm> {
   final myController = TextEditingController();
+  void _onChanged(dynamic val) => debugPrint(val.toString());
 
   @override
   void dispose() {
@@ -42,11 +46,76 @@ class _MyCustomFormState extends State<MyCustomForm> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title:Text(widget.title),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: TextField(
-          controller: myController,
-        ),
+      body: Container(// en esta parte es donde se pone el texto del inicio     
+        child: Column(
+          children: <Widget>[
+            Text(// estos son los primeros textos y es donde se ponen sus especificaciones.
+            "Driving Form",
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 55,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.normal
+              ),
+              textAlign: TextAlign.center,
+            ),
+
+            Text(// estos son los primeros textos y es donde se ponen sus especificaciones.
+            "Form examples",
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.normal
+              ),
+              textAlign: TextAlign.center,              
+            ),
+            const SizedBox(height: 20),
+
+            Text(// estos son los primeros textos y es donde se ponen sus especificaciones.
+            "Form examples ",
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.normal
+              ),
+              textAlign: TextAlign.center,
+            ),
+            
+            Text(// estos son los primeros textos y es donde se ponen sus especificaciones.
+            "Form examples ",
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.normal
+              ),
+              textAlign: TextAlign.center,
+            ),
+            
+            FormBuilderRadioGroup<String>(
+              initialValue: null,
+              name: 'best_language',
+              onChanged: _onChanged,
+              validator: FormBuilderValidators.compose(
+                [FormBuilderValidators.required()]),
+              options: ['Dart', 'Kotlin', 'Java', 'Swift', 'Objective-C']
+                  .map((lang) => FormBuilderFieldOption(
+                        value: lang,
+                        child: Text(lang),
+                      ))
+                  .toList(growable: false),
+              controlAffinity: ControlAffinity.leading,
+            ),
+
+
+
+
+            
+          ],
+        )       
+      
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -83,4 +152,5 @@ class _MyCustomFormState extends State<MyCustomForm> {
       ),
     );
   }
+  
 }
