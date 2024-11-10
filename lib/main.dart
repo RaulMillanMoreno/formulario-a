@@ -23,7 +23,7 @@ class MyHomePage extends StatelessWidget {
   MyHomePage({super.key});
 
   final myController = TextEditingController();
-  final String title = 'Raúl Millán projec';
+  final String title = 'Raúl Millán-Salesians Sarrià 24/25';
   final _formKey = GlobalKey<FormBuilderState>();
   void _onChanged(dynamic val) => debugPrint(val.toString());
 
@@ -107,14 +107,14 @@ class MyHomePage extends StatelessWidget {
                       name: 'remarks',
                       validator: FormBuilderValidators.required(),
                       decoration: InputDecoration(
-                        hintText: 'Enter your remarks', // Texto de sugerencia dentro del campo
-                        filled: true, // Para llenar el fondo del campo
-                        fillColor: const Color.fromARGB(255, 228, 222, 222), // Color de fondo similar al de la imagen
+                        hintText: 'Enter your remarks', 
+                        filled: true, 
+                        fillColor: const Color.fromARGB(255, 228, 222, 222), 
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0), // Bordes redondeados
-                          borderSide: BorderSide(// no sale el color del borde
-                            color: Colors.black, // Color del borde
-                            width: 1.0, // Grosor del borde
+                          borderRadius: BorderRadius.circular(8.0), 
+                          borderSide: BorderSide(
+                            color: Colors.black, 
+                            width: 1.0, 
                           ),
                         ),
                       ),
@@ -123,10 +123,8 @@ class MyHomePage extends StatelessWidget {
                     const SizedBox(height: 20),
 
                     //Encabezado y dropdown
-                    Text('Please provide the high speed of vehicle?',
-            
+                    Text('Please provide the high speed of vehicle?',            
                       style: Theme.of(context).textTheme.labelLarge?.apply(
-
                         fontSizeFactor: 1.5,
                         color: Colors.black,
                       ),      
@@ -135,13 +133,11 @@ class MyHomePage extends StatelessWidget {
 
                     Text('please select one option given below',
                         style: Theme.of(context).textTheme.labelLarge?.apply(
-
                           fontSizeFactor: 1.25,
                           color: Theme.of(context).colorScheme.secondary.withOpacity(0.5)
                         ),
                         textAlign: TextAlign.left,      
-                      ),
-                      
+                      ),                      
                     const SizedBox(height: 20),
 
                     FormBuilderDropdown<String>(
@@ -168,8 +164,7 @@ class MyHomePage extends StatelessWidget {
                     const SizedBox(height: 20),
 
                     //Encabezado y grupo de chebox
-                    Text('Please provide the speed of vehicle past 1 hour?',
-            
+                    Text('Please provide the speed of vehicle past 1 hour?',            
                       style: Theme.of(context).textTheme.labelLarge?.apply(
                         fontSizeFactor: 1.5,
                         color: Colors.black,
@@ -179,17 +174,17 @@ class MyHomePage extends StatelessWidget {
 
                     Text('please select one option or more given below',
                         style: Theme.of(context).textTheme.labelLarge?.apply(
-
                           fontSizeFactor: 1.25,
                           color: Theme.of(context).colorScheme.secondary.withOpacity(0.5)
                         ),
                         textAlign: TextAlign.left,      
-                      ),
-                      
+                      ),                      
                     const SizedBox(height: 20),
 
                     FormBuilderCheckboxGroup<String>(
                       name: 'high_speed',
+                      validator: FormBuilderValidators.compose(
+                        [FormBuilderValidators.required(errorText: 'Es necesario seleccionar alguna opción')]),                      
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       orientation: OptionsOrientation.vertical,
                       options: const [
