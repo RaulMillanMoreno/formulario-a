@@ -9,281 +9,273 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Recuperar el valor d\'un camp de text',
+      title: 'Raúl Millán Project',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: MyCustomForm(title: 'por fin tio'),
+      home: MyHomePage(),
     );
   }
 }
 
-class MyCustomForm extends StatefulWidget {
-  const MyCustomForm({super.key, required this.title});
+class MyHomePage extends StatelessWidget {
+  MyHomePage({super.key});
 
-  final String title;
-  @override
-  State<MyCustomForm> createState() => _MyCustomFormState();
-}
-
-class _MyCustomFormState extends State<MyCustomForm> {
   final myController = TextEditingController();
+  final String title = 'Raúl Millán projec';
   final _formKey = GlobalKey<FormBuilderState>();
   void _onChanged(dynamic val) => debugPrint(val.toString());
-
-  @override
-  void dispose() {
-    myController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: Text(title),
       ),
       body: SingleChildScrollView(
-
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: FormBuilder(
-            key: _formKey, 
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[// en esta parte es donde se pone el texto del inicio
-                
-                Center(
-                  child: Text(
-                     "Driving Form",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 55,
-                      fontWeight: FontWeight.bold,
-                      fontStyle: FontStyle.normal,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              const FormTitle(),
+              FormBuilder(
+                key: _formKey, 
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[// en esta parte es donde se pone el texto del inicio
+                    const SizedBox(height: 20),
+                    //Titulo general del formulario
+                    Text('Please provide the speed of vehicle?',
+            
+                      style: Theme.of(context).textTheme.labelLarge?.apply(
+
+                        fontSizeFactor: 1.5,
+                        color: Colors.black,
+                      ),      
+                      textAlign: TextAlign.left,
                     ),
-                  ),
 
-                ),
-                
-                Text(
-                  "Driving Form",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 55,
-                    fontWeight: FontWeight.bold,
-                    fontStyle: FontStyle.normal,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                
-                
-                Text(
-                  "Form examples",
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    fontStyle: FontStyle.normal,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 20),
-                Text( // estos son los primeros textos y es donde se ponen sus especificaciones.
-                  "Form examples ",
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    fontStyle: FontStyle.normal,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                Text(
-                  "Form examples ",
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    fontStyle: FontStyle.normal,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 20),
+                    //encabezado y grupo de radio buttons
+                    Text('please select one option given below',
+                      style: Theme.of(context).textTheme.labelLarge?.apply(
 
-                FormBuilderRadioGroup<String>(
-                  initialValue: null,
-                  name: 'best_language',
-                  onChanged: _onChanged,
-                  validator: FormBuilderValidators.compose(
-                      [FormBuilderValidators.required()]),
-                  options: ['Dart','Kotlin','Java','Swift','Objective-C']
-                      .map((lang) => FormBuilderFieldOption(
-                            value: lang,
-                            child: Row( // Cambiamos a Row para controlar la disposición
-                              children: [
-                                Text(lang),
-                              ],
-                            ),
-                          ))
-                      .toList(growable: false),
-                  controlAffinity: ControlAffinity.leading, // Cambia a trailing si prefieres que el texto esté a la derecha
-                ),
-                const SizedBox(height: 20),
+                        fontSizeFactor: 1.25,
+                        color: Theme.of(context).colorScheme.secondary.withOpacity(0.5)
+                      ),
+                      textAlign: TextAlign.left,      
+                    ),
+                    
+                    const SizedBox(height: 20),
 
-                Text(
-                  "Enter remarks",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    fontStyle: FontStyle.normal,
-                  ),
-                  textAlign: TextAlign.left,
-                ),
+                    FormBuilderRadioGroup<String>(
+                      initialValue: null,
+                      name: 'speed_of_vehicle',
+                      onChanged: _onChanged,
+                      validator: FormBuilderValidators.compose(
+                          [FormBuilderValidators.required(errorText: 'Es necesario seleccionar una opción')]),
+                      options: ['above 40km/h','below 40km/h','0km/h']
+                        .map((lang) => FormBuilderFieldOption(
+                              value: lang,
+                              child: Row( // Cambiamos a Row para controlar la disposición
+                                children: [
+                                  Text(lang),
+                                ],
+                              ),
+                            ))
+                        .toList(growable: false),
+                      controlAffinity: ControlAffinity.leading,
+                      
+                    ),
+                    const SizedBox(height: 20),
 
-                TextFormField(
-                  decoration: InputDecoration(
-                    hintText: 'Enter your remarks', // Texto de sugerencia dentro del campo
-                    filled: true, // Para llenar el fondo del campo
-                    fillColor: const Color.fromARGB(255, 228, 222, 222), // Color de fondo similar al de la imagen
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0), // Bordes redondeados
-                      borderSide: BorderSide(// no sale el color del borde
-                        color: Colors.red, // Color del borde
-                        width: 1.0, // Grosor del borde
+                    // Encabezado y campo de texto.
+                    Text(
+                      "Enter remarks",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        fontStyle: FontStyle.normal,
+                      ),
+                      textAlign: TextAlign.left,
+                    ),
+
+                    FormBuilderTextField(
+                      name: 'remarks',
+                      validator: FormBuilderValidators.required(),
+                      decoration: InputDecoration(
+                        hintText: 'Enter your remarks', // Texto de sugerencia dentro del campo
+                        filled: true, // Para llenar el fondo del campo
+                        fillColor: const Color.fromARGB(255, 228, 222, 222), // Color de fondo similar al de la imagen
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0), // Bordes redondeados
+                          borderSide: BorderSide(// no sale el color del borde
+                            color: Colors.black, // Color del borde
+                            width: 1.0, // Grosor del borde
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
 
-                Text(
-                  "Enter remarks",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    fontStyle: FontStyle.normal,
-                  ),
-                  textAlign: TextAlign.left,
-                ),
+                    const SizedBox(height: 20),
 
-                Text(
-                  "Enter remarks",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    fontStyle: FontStyle.normal,
-                  ),
-                  textAlign: TextAlign.left,
-                ),
+                    //Encabezado y dropdown
+                    Text('Please provide the high speed of vehicle?',
+            
+                      style: Theme.of(context).textTheme.labelLarge?.apply(
 
-                  
-                const SizedBox(height: 20),
-
-                // Campo de texto adicional
-                FormBuilderTextField(
-                  name: 'remarks',
-                  decoration: InputDecoration(
-                    hintText: 'Enter your remarks',
-                    filled: true,
-                    fillColor: const Color.fromARGB(255, 228, 222, 222),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide: const BorderSide(color: Colors.red),
+                        fontSizeFactor: 1.5,
+                        color: Colors.black,
+                      ),      
+                      textAlign: TextAlign.left,
                     ),
-                  ),
-                ),
 
-                // ComboBox
-                FormBuilderDropdown<String>(
-                  name: 'option_s',
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
+                    Text('please select one option given below',
+                        style: Theme.of(context).textTheme.labelLarge?.apply(
+
+                          fontSizeFactor: 1.25,
+                          color: Theme.of(context).colorScheme.secondary.withOpacity(0.5)
+                        ),
+                        textAlign: TextAlign.left,      
+                      ),
+                      
+                    const SizedBox(height: 20),
+
+                    FormBuilderDropdown<String>(
+                      name: 'country',
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        filled: true,
+                        fillColor: Colors.transparent,
+                      ),
+                      hint: const Text('Select option'),
+                      validator: FormBuilderValidators.compose(
+                        [FormBuilderValidators.required()],
+                      ),
+                      items: ['High', 'Medium', 'Low']
+                          .map((lang) => DropdownMenuItem(
+                                value: lang,
+                                child: Text(lang),
+                              ))
+                          .toList(),
+                      onChanged: _onChanged,
                     ),
-                    filled: true,
-                    fillColor: Colors.transparent,
-                  ),
-                  hint: const Text('Select option'),
-                  validator: FormBuilderValidators.compose(
-                    [FormBuilderValidators.required()],
-                  ),
-                  items: ['Dart', 'Kotlin', 'Java', 'Swift', 'Objective-C']
-                      .map((lang) => DropdownMenuItem(
-                            value: lang,
-                            child: Text(lang),
-                          ))
-                      .toList(),
-                  onChanged: _onChanged,
-                ),
+                    const SizedBox(height: 20),
 
-                Text(
-                  "Enter remarks",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    fontStyle: FontStyle.normal,
-                  ),
-                  textAlign: TextAlign.left,
-                ),
+                    //Encabezado y grupo de chebox
+                    Text('Please provide the speed of vehicle past 1 hour?',
+            
+                      style: Theme.of(context).textTheme.labelLarge?.apply(
+                        fontSizeFactor: 1.5,
+                        color: Colors.black,
+                      ),      
+                      textAlign: TextAlign.left,
+                    ),
 
-                Text(
-                  "Enter remarks",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    fontStyle: FontStyle.normal,
-                  ),
-                  textAlign: TextAlign.left,
+                    Text('please select one option or more given below',
+                        style: Theme.of(context).textTheme.labelLarge?.apply(
+
+                          fontSizeFactor: 1.25,
+                          color: Theme.of(context).colorScheme.secondary.withOpacity(0.5)
+                        ),
+                        textAlign: TextAlign.left,      
+                      ),
+                      
+                    const SizedBox(height: 20),
+
+                    FormBuilderCheckboxGroup<String>(
+                      name: 'high_speed',
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      orientation: OptionsOrientation.vertical,
+                      options: const [
+                        FormBuilderFieldOption(value: '20km/h'),
+                        FormBuilderFieldOption(value: '30km/h'),
+                        FormBuilderFieldOption(value: '40km/h'),
+                        FormBuilderFieldOption(value: '50km/h'),
+                      ],
+                      onChanged: _onChanged,
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          )
-        )
+              )
+            ],
+          )        
+        )        
+      ),
+      //boton flotante donde se muestran los datos seleccionados.
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {       
+          if (_formKey.currentState?.saveAndValidate() ?? false) {
+            final formValues = _formKey.currentState!.value;
+            showDialog(context: context,
+              barrierDismissible: true, 
+              builder: (BuildContext context){
+                return AlertDialog(
+                  icon: const Icon(Icons.check_circle),                
+                  title: const Text('Submission Completed'),
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Velocidad: ${formValues['speed_of_vehicle'] ?? 'No seleccionado'}'),
+                      Text(
+                        'Opción: ${formValues['remarks'] ?? 'No seleccionado'}'),
+                      Text(
+                        'Rango de Velocidad: ${formValues['country'] ?? 'No seleccionado'}'),
+                      Text(
+                        'Múltiple Velocidad: ${formValues['high_speed'] ?? 'No seleccionado'}'),
+                    ],
+                  ),
+                  actions: [
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('OK'),
+                    ),
+                  ],
+                );
+              },          
+            ); 
+          }             
+        },
+        child: const Icon(Icons.upload),
       ),
 
+    );
+  }
+}
 
+class FormTitle extends StatelessWidget{ // aqui es donde se crea el texto del encabezado principal
 
+  const FormTitle({super.key,});
 
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        children: [
+          Text('Driving Form',
+          style: Theme.of(context)
+            .textTheme
+            .displaySmall
+            ?.copyWith(fontWeight: FontWeight.bold),            
+          ),
 
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showModalBottomSheet(
-              backgroundColor: Colors.transparent,
-              context: context,
-              builder: (BuildContext context) {
-                return Container(
-                    decoration: const BoxDecoration(
-                      color: Colors.amber,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(25),
-                        topRight: Radius.circular(25),
-                      ),
-                    ),
-                    height: 200,
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Text(myController.text),
-                          ElevatedButton(
-                            onPressed: () => Navigator.of(context).pop(),
-                            child: const Text('Tancar BottomSheet'),
-                          )
-                        ],
-                      ),
-                    ));
-              });
-        },
-        tooltip: 'Mostra el valor!',
-        child: const Icon(Icons.text_fields),
+          Text('Form example', 
+            style: TextStyle(
+              color: Colors.grey,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              fontStyle: FontStyle.normal,
+            ),
+          )
+        ],
       ),
     );
   }
